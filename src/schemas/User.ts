@@ -1,19 +1,25 @@
-import {Schema,model,Document} from 'mongoose'
+import {Schema,model,Document, Model} from 'mongoose'
+import { TypeInterface } from '../interfaces/TypeInterface'
+import {UserInterface} from '../interfaces/UserInterface'
+import { TypeModel } from './Type'
 
 
-interface UserInterface  extends Document{
-    email : string
-    senha : string
-    nome: String 
-    status : Boolean
+export interface UserModel extends UserInterface,Document {
+    type : TypeInterface['name']
 }
 
 const UserSchema = new Schema({
-    nome: String,
-    senha: String,
-    user_type: [{ type: Schema.Types.ObjectId, ref: 'Type' }],
-    email: { type: String, unique: true },
-    status: Boolean,
+    name:  {
+        type: String,
+        required: true,
+      },
+    password:  {
+        type: String,
+        required: true,
+      },
+    user_type: [{ type: Schema.Types.ObjectId, ref: 'Type' ,required: true}],
+    email: { type: String, unique: true,required: true },
+    status: { type: Boolean, required: true },
 },{
     timestamps: true,
     toJSON: {
@@ -21,4 +27,4 @@ const UserSchema = new Schema({
       },
 })
 
-export default model<UserInterface>('User',UserSchema)
+export const User: Model<UserModel> = model<UserModel>('User', UserSchema)

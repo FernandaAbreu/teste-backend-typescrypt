@@ -2,7 +2,7 @@ import {Router} from 'express'
 
 import UserController from './controllers/UserController'
 
-const routes = Routes()
+const routes = Router()
 
 routes.get('/users', UserController.index)
 routes.post('/users', UserController.create)
